@@ -108,7 +108,7 @@ class SpacySentenceRepresentationIgnoringStopwords(SentenceRepresentation):
 
 
 class DateWeightedSpacySentenceRepresentation(SpacySentenceRepresentation):
-      """
+    """
     Provides functionality for computing (vector-based) 
     sentence representations. Computes vectors using the
     "inverse date frequency" method from Chieu and Lee (2004):
