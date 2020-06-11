@@ -1,7 +1,7 @@
 {
   "name": "asmds_dateref_timeline17",
   "algorithm": "submodular",
-  "corpus": "/home/mitarb/martschat/tls/tilse/timeline17",
+  "corpus": "/home/arian/workspace/sebastian/tilse/timeline17",
   "restrict_topics_to": null,
   "assess_length": "average_length_in_sentences",
   "sentence_representation": "ChieuSentenceRepresentation",
@@ -17,7 +17,7 @@
     "syria": ["syria", "syrian"],
     "yemen": ["yemen"]
   },
-  "rouge_computation": "original",
+  "rouge_computation": "reimpl",
   "properties": {
     "constraint": "is_valid_total_length",
     "semantic_cluster": "clusters_by_similarity",
