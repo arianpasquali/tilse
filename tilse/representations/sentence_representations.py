@@ -107,6 +107,73 @@ class SpacySentenceRepresentationIgnoringStopwords(SentenceRepresentation):
         return vector
 
 
+class DateWeightedSpacySentenceRepresentation(SpacySentenceRepresentation):
+      """
+    Provides functionality for computing (vector-based) 
+    sentence representations. Computes vectors using the
+    "inverse date frequency" method from Chieu and Lee (2004):
+    Query-based event extraction along a timeline". Reweights similarities
+    linearly according to distance of the sentences' dates.
+    
+    Attributes: 
+        corpus (tilse.data.corpora.Corpus): The corpus to compute
+            sentence representations for.
+    """
+    def compute_pairwise_similarities(self):
+        """
+        Computes pairwise similarity between all sentences in the corpus.
+        
+        Uses cosine similarity. Reweights similarities linearly according 
+        to distance of the sentences' dates.
+        
+        Returns:
+            numpy.array: A matrix of pairwise sentence similarities.
+        """    
+        sents, sents_vec = self._get_sents_with_representations()
+
+        sims = 1 - metrics.pairwise.pairwise_distances(sents_vec, metric="cosine")
+
+        for i, sent_a in enumerate(sents):
+            for j, sent_b in enumerate(sents):
+                sims[i][j] *= 1 / math.sqrt((math.fabs(sent_a.date.toordinal() - sent_b.date.toordinal()) + 1))
+
+        return sims
+
+
+class CutOffSpacySentenceRepresentation(SpacySentenceRepresentation):
+    """
+    Provides functionality for computing (vector-based) 
+    sentence representations. Computes vectors using the
+    "inverse date frequency" method from Chieu and Lee (2004):
+    Query-based event extraction along a timeline". Sets similarity
+    of sentences with date distance > 10 to 0.
+    
+    Attributes: 
+        corpus (tilse.data.corpora.Corpus): The corpus to compute
+            sentence representations for.
+    """
+    def compute_pairwise_similarities(self):
+        """
+        Computes pairwise similarity between all sentences in the corpus.
+        
+        Uses cosine similarity. Sets similarity of sentences with date 
+        distance > 10 to 0.
+        
+        Returns:
+            numpy.array: A matrix of pairwise sentence similarities.
+        """        
+        sents, sents_vec = self._get_sents_with_representations()
+
+        sims = 1 - metrics.pairwise.pairwise_distances(sents_vec, metric="cosine")
+
+        for i, sent_a in enumerate(sents):
+            for j, sent_b in enumerate(sents):
+                if math.fabs(sent_a.date.toordinal() - sent_b.date.toordinal()) > 10:
+                    sims[i][j] = 0
+
+        return sims
+
+
 class ChieuSentenceRepresentation(SentenceRepresentation):
     """
     Provides functionality for computing (vector-based) 
