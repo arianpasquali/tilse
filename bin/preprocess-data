@@ -30,8 +30,8 @@ parser.add_argument('corpus_name', help='Name of the corpus to download (either 
 args = parser.parse_args()
 corpus = args.corpus_name
 
-if corpus not in ["crisis", "timeline17"]:
-    print("Corpus must be either crisis or timeline17. Exiting.")
+# if corpus not in ["crisis", "timeline17"]:
+#     print("Corpus must be either crisis or timeline17. Exiting.")
 
 # download corpus and extract archive
 
@@ -41,21 +41,18 @@ if corpus == "timeline17":
     to_retrieve = "http://l3s.de/~gtran/timeline/Timeline17.zip"
 elif corpus == "crisis":
     to_retrieve = "http://l3s.de/~gtran/timeline/crisis.data.tar.gz"
-elif corpus == "tlscovid19_en":
-    to_retrieve = "http://"
-elif corpus == "tlscovid19_pt":
-    to_retrieve = "http://"    
-
+elif corpus == "tlscovid19-en":
+    to_retrieve = "http://meuparlamento.pt/tlscovid19-en.zip"
+elif corpus == "tlscovid19-pt":
+    to_retrieve = "http://meuparlamento.pt/tlscovid19-en.zip"
 
 filename, _ = urlrequest.urlretrieve(to_retrieve)
 
 archive_ref = None
 
-# if corpus == "timeline17":
-#     archive_ref = zipfile.ZipFile(filename, 'r')
-# elif corpus == "crisis":
-#     archive_ref = tarfile.open(filename, 'r:gz')
-if corpus == "crisis":
+if corpus == "timeline17":
+    archive_ref = zipfile.ZipFile(filename, 'r')
+elif corpus == "crisis":
     archive_ref = tarfile.open(filename, 'r:gz')
 else:
     archive_ref = zipfile.ZipFile(filename, 'r')
@@ -142,7 +139,36 @@ elif corpus == "crisis":
                     temp_path + topic + "/public/timelines/" + tl_filename,
                     path_raw + topic + "/timelines/"
                 )
+elif "covid19" in corpus:
+    # copy articles and timelines
+    for topic in os.listdir(temp_path):
+        os.makedirs(path_raw + topic + "/articles/")
+        os.mkdir(path_raw + topic + "/timelines/")
 
+        # first articles...
+        for date_dir in os.listdir(temp_path + topic + "/public/content/"):
+            if not os.path.isdir(temp_path + topic + "/public/content/" + date_dir):
+                continue
+
+            if not len(date_dir.split("-")[-1]) == 2:
+                print(date_dir)
+                continue
+
+            os.mkdir(path_raw + topic + "/articles/" + date_dir + "/")
+
+            for filename in sorted(os.listdir(temp_path + topic + "/public/content/" + date_dir + "/")):
+                shutil.copy(
+                    temp_path + topic + "/public/content/" + date_dir + "/" + filename,
+                    path_raw + topic + "/articles/" + date_dir + "/"
+                )
+
+        # ...and then timelines
+        for tl_filename in os.listdir(temp_path + topic + "/public/timelines/"):
+            if not tl_filename.startswith("."):
+                shutil.copy(
+                    temp_path + topic + "/public/timelines/" + tl_filename,
+                    path_raw + topic + "/timelines/"
+                )
 shutil.rmtree(temp_path)
 
 # sentence split and tokenize (if neccessary)
