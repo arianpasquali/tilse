@@ -1,0 +1,15 @@
+{
+  "name": "random",
+  "algorithm": "random",
+  "corpus": "/home/dock/workspace/tilse/tlscovid19/pt/raw",
+  "language":"pt",
+  "assess_length": "average_length_in_sentences",
+  "sentence_representation": "ChieuSentenceRepresentation",
+ 
+ "restrict_topics_to": null,
+  "keyword_mapping": null, 
+  "rouge_computation": "reimpl",
+  "enable_joint_date_selection_mode": false
+
+}
+
