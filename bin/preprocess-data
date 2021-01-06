@@ -35,30 +35,32 @@ corpus = args.corpus_name
 
 # download corpus and extract archive
 
-to_retrieve = ""
+# to_retrieve = ""
 
-if corpus == "timeline17":
-    to_retrieve = "http://l3s.de/~gtran/timeline/Timeline17.zip"
-elif corpus == "crisis":
-    to_retrieve = "http://l3s.de/~gtran/timeline/crisis.data.tar.gz"
-elif corpus == "tlscovid19-en":
-    to_retrieve = "http://meuparlamento.pt/tlscovid19-en.zip"
-elif corpus == "tlscovid19-pt":
-    to_retrieve = "http://meuparlamento.pt/tlscovid19-en.zip"
+# if corpus == "timeline17":
+#     to_retrieve = "http://l3s.de/~gtran/timeline/Timeline17.zip"
+# elif corpus == "crisis":
+#     to_retrieve = "http://l3s.de/~gtran/timeline/crisis.data.tar.gz"
+# elif corpus == "tlscovid19-en":
+#     to_retrieve = "http://meuparlamento.pt/ecir21/tlscovid19/tlscovid19-en.zip"
+# elif corpus == "tlscovid19-pt":
+#     to_retrieve = "http://meuparlamento.pt/ecir21/tlscovid19/tlscovid19-pt.zip"
 
-filename, _ = urlrequest.urlretrieve(to_retrieve)
+# filename, _ = urlrequest.urlretrieve(to_retrieve)
 
-archive_ref = None
+# archive_ref = None
 
-if corpus == "timeline17":
-    archive_ref = zipfile.ZipFile(filename, 'r')
-elif corpus == "crisis":
-    archive_ref = tarfile.open(filename, 'r:gz')
-else:
-    archive_ref = zipfile.ZipFile(filename, 'r')
+# if corpus == "timeline17":
+#     archive_ref = zipfile.ZipFile(filename, 'r')
+# elif corpus == "crisis":
+#     archive_ref = tarfile.open(filename, 'r:gz')
+# else:
+#     archive_ref = zipfile.ZipFile(filename, 'r')
 
-temp_path = tempfile.mkdtemp() + "/"
-archive_ref.extractall(temp_path)
+# temp_path = tempfile.mkdtemp() + "/"
+# archive_ref.extractall(temp_path)
+
+temp_path = "/home/dock/workspace/tilse/covid19_en/raw/"
 
 # transform directory structure
 
@@ -139,6 +141,7 @@ elif corpus == "crisis":
                     temp_path + topic + "/public/timelines/" + tl_filename,
                     path_raw + topic + "/timelines/"
                 )
+# http://meuparlamento.pt/ecir21/tlscovid19_expandido/tlscovid19-en.zip
 elif "covid19" in corpus:
     # copy articles and timelines
     for topic in os.listdir(temp_path):
@@ -146,8 +149,8 @@ elif "covid19" in corpus:
         os.mkdir(path_raw + topic + "/timelines/")
 
         # first articles...
-        for date_dir in os.listdir(temp_path + topic + "/public/content/"):
-            if not os.path.isdir(temp_path + topic + "/public/content/" + date_dir):
+        for date_dir in os.listdir(temp_path + topic + "/input_docs/"):
+            if not os.path.isdir(temp_path + topic + "/input_docs/" + date_dir):
                 continue
 
             if not len(date_dir.split("-")[-1]) == 2:
@@ -156,20 +159,21 @@ elif "covid19" in corpus:
 
             os.mkdir(path_raw + topic + "/articles/" + date_dir + "/")
 
-            for filename in sorted(os.listdir(temp_path + topic + "/public/content/" + date_dir + "/")):
+            for filename in sorted(os.listdir(temp_path + topic + "/input_docs/" + date_dir + "/")):
                 shutil.copy(
-                    temp_path + topic + "/public/content/" + date_dir + "/" + filename,
+                    temp_path + topic + "/input_docs/" + date_dir + "/" + filename,
                     path_raw + topic + "/articles/" + date_dir + "/"
                 )
 
         # ...and then timelines
-        for tl_filename in os.listdir(temp_path + topic + "/public/timelines/"):
+        for tl_filename in os.listdir(temp_path + topic + "/timelines/"):
             if not tl_filename.startswith("."):
                 shutil.copy(
-                    temp_path + topic + "/public/timelines/" + tl_filename,
+                    temp_path + topic + "/timelines/" + tl_filename,
                     path_raw + topic + "/timelines/"
                 )
-shutil.rmtree(temp_path)
+
+# shutil.rmtree(temp_path)
 
 # sentence split and tokenize (if neccessary)
 
