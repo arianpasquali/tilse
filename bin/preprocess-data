@@ -179,7 +179,7 @@ elif "covid19" in corpus:
 
 nlp = spacy.load("en_core_web_sm")
 
-if corpus == "crisis":
+if corpus == "crisis" or "covid19" in corpus:
     counter = 0
 
     for topic in os.listdir(path_raw):
