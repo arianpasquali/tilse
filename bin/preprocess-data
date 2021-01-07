@@ -218,8 +218,8 @@ if corpus == "crisis" or "covid19" in corpus:
                         for line in file.readlines():
                             sentences += line
 
-                    clean_from_html = MLStripper(sentences)
-                    doc = nlp(clean_from_html)
+                    clean_content_from_html = MLStripper.strip_tags(sentences)
+                    doc = nlp(clean_content_from_html)
 
                     splitted_and_tokenized = ""
 
