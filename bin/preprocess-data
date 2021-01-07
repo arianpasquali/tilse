@@ -19,10 +19,13 @@ import shutil
 import pickle
 import spacy
 import subprocess
+from dateutil import parser as date_parser
+
 
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 from tilse.data import corpora
+from tilse.util.temporal_expression import normalize_temporal_expressions
 
 parser = argparse.ArgumentParser(description='Get and preprocess timeline data.')
 parser.add_argument('corpus_name', help='Name of the corpus to download (either timeline17 or crisis).')
@@ -61,7 +64,10 @@ corpus = args.corpus_name
 # archive_ref.extractall(temp_path)
 
 #temp_path = "/home/dock/workspace/tilse/covid19_en/raw/"
-temp_path = "/home/dock/workspace/tilse/dataset_covid19/covid19_en/raw/"
+
+dataset_lang = corpus.split("_")[-1]
+print("dataset lang", dataset_lang)
+temp_path = f"/home/dock/workspace/tilse/dataset_covid19/covid19_{dataset_lang}/raw/"
 # transform directory structure
 
 path = os.getcwd() + "/" + corpus + "/"
@@ -178,6 +184,8 @@ elif "covid19" in corpus:
 # sentence split and tokenize (if neccessary)
 
 nlp = spacy.load("en_core_web_sm")
+if(dataset_lang == "pt")
+    nlp = spacy.load("pt_core_news_sm")
 
 if corpus == "crisis" or "covid19" in corpus:
     counter = 0
@@ -186,7 +194,8 @@ if corpus == "crisis" or "covid19" in corpus:
         for date in os.listdir("/".join([path_raw, topic, "articles"])):
             if os.path.isdir("/".join([path_raw, topic, "articles", date])):
                 for filename in os.listdir("/".join([path_raw, topic, "articles", date])):
-
+                    print("content tokenization")
+                    
                     filename_to_process = "/".join([path_raw, topic, "articles", date,
                                                     filename])
 
@@ -209,97 +218,100 @@ if corpus == "crisis" or "covid19" in corpus:
                     tokenized_filename = "/".join([path_raw, topic, "articles", date,
                                                    filename]) + ".tokenized"
 
-                    with open(tokenized_filename, "w") as file:
-                        file.write(splitted_and_tokenized)
+                    with open(tokenized_filename, "w") as f_out:
+                        f_out.write(splitted_and_tokenized)
 
+                    print("write timeml file")
+                    article_dateref = date_parser.parse(date)
+                    timeml_xml = normalize_temporal_expressions(splitted_and_tokenized, article_dateref)
+
+                    timeml_output_filename = "/".join([path_raw, topic, "articles", date,
+                                                   filename]) + ".timeml"
+                    with open(timeml_output_filename, "w") as f_out:
+                        f_out.write(timeml_xmldoc.encode("utf-8"))
+
+                    
                     print(counter)
                     counter += 1
 
-# handle special tokens for xml
+# # handle special tokens for xml
 
-pairs = [("&", "&amp;"), ("<", "\&lt;"), (">", "\&gt;")]
+# pairs = [("&", "&amp;"), ("<", "\&lt;"), (">", "\&gt;")]
 
-for pair in pairs:
-    find_command = "find " + path_raw + " -name '*htm*' -type f -print0"
-    sed_command = "xargs -0 sed -i 's/" + pair[0] + "/" + pair[1] + "/g'"
+# for pair in pairs:
+#     find_command = "find " + path_raw + " -name '*htm*' -type f -print0"
+#     sed_command = "xargs -0 sed -i 's/" + pair[0] + "/" + pair[1] + "/g'"
 
-    find_output = subprocess.Popen(
-        shlex.split(find_command),
-        stdout=subprocess.PIPE
-    )
+#     find_output = subprocess.Popen(
+#         shlex.split(find_command),
+#         stdout=subprocess.PIPE
+#     )
 
-    subprocess.Popen(
-        shlex.split(sed_command),
-        stdin=find_output.stdout
-    )
+#     subprocess.Popen(
+#         shlex.split(sed_command),
+#         stdin=find_output.stdout
+#     )
 
-    find_output.wait()
+#     find_output.wait()
 
 # tag with heideltime
 
-heideltime_directory = os.path.dirname(os.path.realpath(__file__)) + \
-                       "/../tilse/tools/heideltime/"
+# # heideltime_directory = os.path.dirname(os.path.realpath(__file__)) + \
+# #                        "/../tilse/tools/heideltime/"
 
-apply_heideltime = heideltime_directory + "apply-heideltime.jar"
-heideltime_config = heideltime_directory + "config.props"
+# # apply_heideltime = heideltime_directory + "apply-heideltime.jar"
+# # heideltime_config = heideltime_directory + "config.props"
 
-ending = "txt"
-if corpus == "crisis":
-    ending = "tokenized"
+# # ending = "txt"
+# # if corpus == "crisis":
+# #     ending = "tokenized"
 
-counter = 0
+# # counter = 0
 
-for topic in os.listdir(path_raw):
-    subprocess.run(
-        [
-            "java",
-            "-jar",
-            apply_heideltime,
-            heideltime_config,
-            "/".join([path_raw, topic, "articles"]),
-            ending
-        ]
-    )
+# # for topic in os.listdir(path_raw):
+# #     subprocess.run(
+# #         [
+# #             "java",
+# #             "-jar",
+# #             apply_heideltime,
+# #             heideltime_config,
+# #             "/".join([path_raw, topic, "articles"]),
+# #             ending
+# #         ]
+# #     )
 
-    print(counter)
-    counter += 1
+# #     print(counter)
+# #     counter += 1
 
-# fix some heideltime bugs
+# # fix some heideltime bugs
+# replace_pairs = [
+#     ("T24", "T12"),
+#     (")TMO", "TMO"),
+#     (")TAF", "TAF"),
+#     (")TEV", "TEV"),
+#     (")TNI", "TNI"),
+# ]
 
-replace_pairs = [
-    ("T24", "T12"),
-    (")TMO", "TMO"),
-    (")TAF", "TAF"),
-    (")TEV", "TEV"),
-    (")TNI", "TNI"),
-]
+# for pair in replace_pairs:
+#     find_command = "find " + path_raw + " -name '*.timeml' -type f -print0"
 
-for pair in replace_pairs:
-    find_command = "find " + path_raw + " -name '*.timeml' -type f -print0"
+#     find_output = subprocess.Popen(
+#         shlex.split(find_command),
+#         stdout=subprocess.PIPE
+#     )
 
-    find_output = subprocess.Popen(
-        shlex.split(find_command),
-        stdout=subprocess.PIPE
-    )
+#     sed_command = "xargs -0 sed -i 's/" + pair[0] + "/" + pair[1] + "/g'"
 
-    sed_command = "xargs -0 sed -i 's/" + pair[0] + "/" + pair[1] + "/g'"
+#     subprocess.Popen(
+#         shlex.split(sed_command),
+#         stdin=find_output.stdout
+#     )
 
-    subprocess.Popen(
-        shlex.split(sed_command),
-        stdin=find_output.stdout
-    )
-
-    find_output.wait()
-
-# fix issue with mj bbc timeline in timeline 17 corpus
-
-if corpus == "timeline17":
-    other_sed_command = "sed -i 's/2011-04-0/2011-04-02/g' " + path_raw + "/mj/timelines/bbc.co.uk.txt"
-    subprocess.Popen(shlex.split(other_sed_command))
+#     find_output.wait()
 
 # linguistic processing and serialization
 
-nlp = spacy.load("en_core_web_sm")
+# nlp = spacy.load("en_core_web_sm")
 
 path_dumped = path + "dumped_corpora/"
 
