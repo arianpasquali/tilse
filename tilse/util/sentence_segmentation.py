@@ -16,4 +16,4 @@ def sentence_segmenter(document):
             sentences.append(s_sentence)
         print()  # separate paragraphs with newlines
 
-    return sentences
+    return "\n".join(sentences)
