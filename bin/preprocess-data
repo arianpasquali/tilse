@@ -21,6 +21,8 @@ import spacy
 import subprocess
 from dateutil import parser as date_parser
 
+import nltk 
+nltk.download('punkt')
 
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
