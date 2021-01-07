@@ -151,8 +151,16 @@ elif corpus == "crisis":
 elif "covid19" in corpus:
     # copy articles and timelines
     for topic in os.listdir(temp_path):
-        os.makedirs(path_raw + topic + "/articles/")
-        os.mkdir(path_raw + topic + "/timelines/")
+        articles_path = path_raw + topic + "/articles/"
+
+        if os.path.exists(articles_path):
+            shutil.rmtree(articles_path)
+        os.makedirs(articles_path)
+
+        timelines_path = path_raw + topic + "/articles/"
+        if os.path.exists(timelines_path):
+            shutil.rmtree(timelines_path)
+        os.makedirs(timelines_path)
 
         # first articles...
         for date_dir in os.listdir(temp_path + topic + "/input_docs/"):
