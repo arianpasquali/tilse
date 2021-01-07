@@ -23,6 +23,7 @@ from dateutil import parser as date_parser
 
 import nltk 
 nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
 
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
@@ -238,7 +239,7 @@ if corpus == "crisis" or "covid19" in corpus:
                     timeml_output_filename = "/".join([path_raw, topic, "articles", date,
                                                    filename]) + ".timeml"
                     with open(timeml_output_filename, "w") as f_out:
-                        f_out.write(timeml_xmldoc.encode("utf-8"))
+                        f_out.write(timeml_xml.encode("utf-8"))
 
                     
                     print(counter)
