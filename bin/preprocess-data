@@ -236,6 +236,10 @@ if corpus == "crisis" or "covid19" in corpus:
                     with open(tokenized_filename, "w") as f_out:
                         f_out.write(splitted_and_tokenized)
 
+                    pairs = [("&", "&amp;"), ("<", "\&lt;"), (">", "\&gt;")]
+                    for pair in pairs:
+                        splitted_and_tokenized = splitted_and_tokenized.replace(pair[0],pair[1])
+
                     # print("write timeml file")
                     article_dateref = date_parser.parse(date)
                     timeml_xml = normalize_temporal_expressions(splitted_and_tokenized, article_dateref)
