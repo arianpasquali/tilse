@@ -6,6 +6,7 @@ import os
 import shlex
 import sys
 
+
 try:
     import urllib.request as urlrequest
 except ImportError:
@@ -29,6 +30,7 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 from tilse.data import corpora
 from tilse.util.temporal_expression import normalize_temporal_expressions
+from tilse.util.html_cleaner import MLStripper
 
 parser = argparse.ArgumentParser(description='Get and preprocess timeline data.')
 parser.add_argument('corpus_name', help='Name of the corpus to download (either timeline17 or crisis).')
@@ -216,7 +218,8 @@ if corpus == "crisis" or "covid19" in corpus:
                         for line in file.readlines():
                             sentences += line
 
-                    doc = nlp(sentences)
+                    clean_from_html = MLStripper(sentences)
+                    doc = nlp(clean_from_html)
 
                     splitted_and_tokenized = ""
 
