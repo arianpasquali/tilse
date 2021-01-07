@@ -1,7 +1,7 @@
 {
-  "name": "tlsconstraints_upper_bound",
+  "name": "tlsconstraints_upper_bound_covid19_pt",
   "algorithm": "upper_bound",
-  "corpus": "/home/dock/workspace/tilse/covid19_en",
+  "corpus": "/home/dock/workspace/tilse/covid19_pt",
   "restrict_topics_to": null,
   "assess_length": "average_length_in_sentences",
   "sentence_representation": "ChieuSentenceRepresentation",

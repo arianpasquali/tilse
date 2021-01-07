@@ -1,7 +1,7 @@
 {
-  "name": "tlsconstraints_reweighting_dateref_covid19_en",
+  "name": "tlsconstraints_reweighting_dateref_covid19_pt",
   "algorithm": "submodular",
-  "corpus": "/home/dock/workspace/tilse/convid19_en",
+  "corpus": "/home/dock/workspace/tilse/convid19_pt",
   "restrict_topics_to": null,
   "assess_length": "average_length_in_sentences",
   "sentence_representation": "DateWeightedChieuSentenceRepresentation",

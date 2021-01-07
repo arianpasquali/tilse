@@ -1,7 +1,7 @@
 {
-  "name": "random",
+  "name": "random_covid19_pt",
   "algorithm": "random",
-  "corpus": "/home/dock/workspace/tilse/tlscovid19/pt/raw",
+  "corpus": "/home/dock/workspace/tilse/covid19_pt",
   "language":"pt",
   "assess_length": "average_length_in_sentences",
   "sentence_representation": "ChieuSentenceRepresentation",
