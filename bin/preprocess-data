@@ -229,20 +229,20 @@ if corpus == "crisis" or "covid19" in corpus:
                     tokenized_filename = "/".join([path_raw, topic, "articles", date,
                                                    filename]) + ".tokenized"
 
+                    print(counter, tokenized_filename)
                     with open(tokenized_filename, "w") as f_out:
                         f_out.write(splitted_and_tokenized)
 
-                    print("write timeml file")
+                    # print("write timeml file")
                     article_dateref = date_parser.parse(date)
                     timeml_xml = normalize_temporal_expressions(splitted_and_tokenized, article_dateref)
 
                     timeml_output_filename = "/".join([path_raw, topic, "articles", date,
                                                    filename]) + ".timeml"
-                    with open(timeml_output_filename, "w") as f_out:
+                    with open(timeml_output_filename, "wb") as f_out:
                         f_out.write(timeml_xml.encode("utf-8"))
-
                     
-                    print(counter)
+                    print(counter, timeml_output_filename)
                     counter += 1
 
 # # handle special tokens for xml
