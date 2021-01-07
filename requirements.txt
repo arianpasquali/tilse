@@ -8,3 +8,4 @@ pathlib2==2.3.5
 scikit_learn==0.20.0
 scipy==1.4.1
 git+https://github.com/arianpasquali/ternip
+syntok

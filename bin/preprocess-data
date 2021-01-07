@@ -31,6 +31,7 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from tilse.data import corpora
 from tilse.util.temporal_expression import normalize_temporal_expressions
 from tilse.util import html_cleaner 
+from tilse.util.sentence_segmentation import sentence_segmenter
 
 parser = argparse.ArgumentParser(description='Get and preprocess timeline data.')
 parser.add_argument('corpus_name', help='Name of the corpus to download (either timeline17 or crisis).')
@@ -236,13 +237,21 @@ if corpus == "crisis" or "covid19" in corpus:
                     with open(tokenized_filename, "w") as f_out:
                         f_out.write(splitted_and_tokenized)
 
+                    fix_sentence_segmentation = sentence_segmenter(splitted_and_tokenized)
+                    segmented_filename = "/".join([path_raw, topic, "articles", date,
+                                                   filename]) + ".segmented"
+
+                    print(counter, segmented_filename)
+                    with open(segmented_filename, "w") as f_out:
+                        f_out.write(fix_sentence_segmentation)
+                    
                     pairs = [("&", "&amp;"), ("<", "\&lt;"), (">", "\&gt;")]
                     for pair in pairs:
-                        splitted_and_tokenized = splitted_and_tokenized.replace(pair[0],pair[1])
+                        fix_sentence_segmentation = fix_sentence_segmentation.replace(pair[0],pair[1])
 
                     # print("write timeml file")
                     article_dateref = date_parser.parse(date)
-                    timeml_xml = normalize_temporal_expressions(splitted_and_tokenized, article_dateref)
+                    timeml_xml = normalize_temporal_expressions(fix_sentence_segmentation, article_dateref)
 
                     timeml_output_filename = "/".join([path_raw, topic, "articles", date,
                                                    filename]) + ".timeml"
