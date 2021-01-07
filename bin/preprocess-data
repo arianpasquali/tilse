@@ -184,7 +184,7 @@ elif "covid19" in corpus:
 # sentence split and tokenize (if neccessary)
 
 nlp = spacy.load("en_core_web_sm")
-if(dataset_lang == "pt")
+if(dataset_lang == "pt"):
     nlp = spacy.load("pt_core_news_sm")
 
 if corpus == "crisis" or "covid19" in corpus:
