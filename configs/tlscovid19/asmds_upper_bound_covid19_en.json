@@ -1,0 +1,13 @@
+{
+  "name": "asmds_upper_bound_covid19_en",
+  "algorithm": "upper_bound",
+  "corpus": "/home/dock/workspace/tilse/covid19_en",
+  "restrict_topics_to": null,
+  "assess_length": "average_length_in_sentences",
+  "sentence_representation": "ChieuSentenceRepresentation",
+  "keyword_mapping": null,
+  "rouge_computation": "reimpl",
+  "properties": {
+    "constraint": "is_valid_total_length"
+  }
+}

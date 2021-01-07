@@ -1,0 +1,16 @@
+{
+  "name": "random_covid19_en",
+  "algorithm": "random",
+  "corpus": "/home/dock/workspace/tilse/covid19_en",
+  "language":"en",
+  "assess_length": "average_length_in_sentences",
+  "sentence_representation": "ChieuSentenceRepresentation",
+ 
+ "restrict_topics_to": null,
+  "keyword_mapping": null, 
+  "rouge_computation": "reimpl",
+  "enable_joint_date_selection_mode": false
+
+}
+
+

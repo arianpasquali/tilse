@@ -60,8 +60,8 @@ corpus = args.corpus_name
 # temp_path = tempfile.mkdtemp() + "/"
 # archive_ref.extractall(temp_path)
 
-temp_path = "/home/dock/workspace/tilse/covid19_en/raw/"
-
+#temp_path = "/home/dock/workspace/tilse/covid19_en/raw/"
+temp_path = "/home/dock/workspace/tilse/dataset_covid19/covid19_en/raw/"
 # transform directory structure
 
 path = os.getcwd() + "/" + corpus + "/"

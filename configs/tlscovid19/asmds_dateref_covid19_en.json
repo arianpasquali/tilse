@@ -1,0 +1,17 @@
+{
+  "name": "asmds_dateref_covid19_en",
+  "algorithm": "submodular",
+  "restrict_topics_to": null,
+   "corpus": "/home/dock/workspace/tilse/covid19_en",
+  "language":"en",
+  "assess_length": "average_length_in_sentences",
+  "sentence_representation": "ChieuSentenceRepresentation",
+  "keyword_mapping": null, 
+  "rouge_computation": "reimpl",
+  "properties": {
+    "constraint": "is_valid_total_length",
+    "semantic_cluster": "clusters_by_similarity",
+    "date_cluster": "clusters_by_date",
+    "coefficients": [1, 1, 0, 1]
+  }
+}

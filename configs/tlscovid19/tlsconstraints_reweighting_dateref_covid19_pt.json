@@ -1,0 +1,16 @@
+{
+  "name": "tlsconstraints_reweighting_dateref_covid19_en",
+  "algorithm": "submodular",
+  "corpus": "/home/dock/workspace/tilse/convid19_en",
+  "restrict_topics_to": null,
+  "assess_length": "average_length_in_sentences",
+  "sentence_representation": "DateWeightedChieuSentenceRepresentation",
+  "keyword_mapping": null,
+  "rouge_computation": "reimpl",
+  "properties": {
+    "constraint": "is_valid_individual_constraints",
+    "semantic_cluster": "clusters_by_similarity",
+    "date_cluster": "clusters_by_date",
+    "coefficients": [1, 1, 0, 1]
+  }
+}

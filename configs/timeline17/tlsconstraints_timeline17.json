@@ -1,7 +1,7 @@
 {
   "name": "tlsconstraints_timeline17",
   "algorithm": "submodular",
-  "corpus": "/home/arian/workspace/sebastian/tilse/timeline17",
+  "corpus": "/home/dock/workspace/tilse/timeline17",
   "restrict_topics_to": null,
   "assess_length": "average_length_in_sentences",
   "sentence_representation": "ChieuSentenceRepresentation",
