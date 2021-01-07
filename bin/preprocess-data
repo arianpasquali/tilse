@@ -30,7 +30,7 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 from tilse.data import corpora
 from tilse.util.temporal_expression import normalize_temporal_expressions
-from tilse.util.html_cleaner import MLStripper
+from tilse.util import html_cleaner 
 
 parser = argparse.ArgumentParser(description='Get and preprocess timeline data.')
 parser.add_argument('corpus_name', help='Name of the corpus to download (either timeline17 or crisis).')
