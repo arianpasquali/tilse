@@ -55,6 +55,8 @@ class Document:
         time_values = []
         time_spans = []
 
+        print("parse xml")
+        print(text)
         root = ElementTree.fromstring(text)
 
         tokens.extend(root.text.split())
@@ -70,6 +72,7 @@ class Document:
             time_span = "d"
 
             if time_tag.attrib["type"] == "DATE":
+                print("DATE tag", time_tag)
                 try:
                     value = [
                         datetime.datetime.strptime(
@@ -98,6 +101,7 @@ class Document:
                             value = [None]
 
             elif time_tag.attrib["type"] == "TIME":
+                print("TIME tag", time_tag)
                 try:
                     value = [
                         datetime.datetime.strptime(
