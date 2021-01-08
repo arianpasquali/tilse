@@ -67,8 +67,8 @@ class Document:
             if time_tag.text is None:
                 continue
             
-            if not hasattr(time_tag, "value"):
-                continue
+            # if not hasattr(time_tag, "value"):
+            #     continue
 
             splitted_text = time_tag.text.split()
             tokens.extend(splitted_text)
