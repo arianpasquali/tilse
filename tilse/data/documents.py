@@ -71,6 +71,7 @@ class Document:
 
             time_span = "d"
             value = [None]
+                
             if time_tag.attrib["type"] == "DATE":
                 print("DATE tag", time_tag)
                 try:
@@ -79,7 +80,7 @@ class Document:
                             time_tag.attrib["value"], '%Y-%m-%d'
                         ).date()
                     ]
-                except ValueError:
+                except ValueError, KeyError:
                     try:
                         value = [
                             datetime.datetime.strptime(
@@ -120,7 +121,7 @@ class Document:
                             time_tag.attrib["value"], '%Y-%m-%dT%H:%M'
                         ).date()
                     ]
-                except ValueError:
+                except ValueError, KeyError:
                     try:
                         value = [
                             datetime.datetime.strptime(
