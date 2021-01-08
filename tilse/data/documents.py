@@ -70,7 +70,7 @@ class Document:
             tokens.extend(splitted_text)
 
             time_span = "d"
-
+            value = [None]
             if time_tag.attrib["type"] == "DATE":
                 print("DATE tag", time_tag)
                 try:
