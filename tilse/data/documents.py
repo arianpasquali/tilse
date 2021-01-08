@@ -111,13 +111,17 @@ class Document:
                                 ]
                                 print(value)
                             except (KeyError, ValueError) as e:
-                                logger.warning("Could not parse date " +
-                                            time_tag.attrib["value"])
+                                if(hasattr(time_tag,"value")):
+                                    logger.warning("Could not parse date " +
+                                                time_tag.attrib["value"])
+                                else:
+                                    print("error parsing date", time_tag)
                 try:
                     print(time_tag.attrib["value"], value)                    
                 # except (ValueError, KeyError) as error:
                 except (KeyError, ValueError) as e:
-                    print("error to parse",time_tag.attrib["value"])
+                    # print("error to parse",time_tag.attrib["value"])
+                    print("error parsing date", time_tag)
 
             elif time_tag.attrib["type"] == "TIME":
                 print("TIME tag", time_tag)
