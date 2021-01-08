@@ -56,7 +56,7 @@ class Document:
         time_spans = []
 
         print("parse xml")
-        print(text)
+        # print(text)
         root = ElementTree.fromstring(text)
 
         tokens.extend(root.text.split())
