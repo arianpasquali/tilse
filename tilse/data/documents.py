@@ -93,7 +93,7 @@ class Document:
                             ).date()
                         ]
                         time_span = "m"
-                    except ValueError:
+                    except (KeyError, ValueError) as e:
                         try:
                             value = [
                                 datetime.datetime.strptime(
@@ -102,7 +102,7 @@ class Document:
                             ]
                             print(value)
                             time_span = "y"
-                        except ValueError:
+                        except (KeyError, ValueError) as e:
                             try:
                                 value = [
                                     datetime.datetime.strptime(
@@ -110,13 +110,13 @@ class Document:
                                     ).date()
                                 ]
                                 print(value)
-                            except ValueError:
+                            except (KeyError, ValueError) as e:
                                 logger.warning("Could not parse date " +
                                             time_tag.attrib["value"])
                 try:
                     print(time_tag.attrib["value"], value)                    
                 # except (ValueError, KeyError) as error:
-                except:
+                except (KeyError, ValueError) as e:
                     print("error to parse",time_tag.attrib["value"])
 
             elif time_tag.attrib["type"] == "TIME":
@@ -128,35 +128,35 @@ class Document:
                         ).date()
                     ]
                 # except (ValueError, KeyError) as error:
-                except:
+                except (KeyError, ValueError) as e:
                     try:
                         value = [
                             datetime.datetime.strptime(
                                 time_tag.attrib["value"], '%Y-%m-%dTMO'
                             ).date()
                         ]
-                    except ValueError:
+                    except (KeyError, ValueError) as e:
                         try:
                             value = [
                                 datetime.datetime.strptime(
                                     time_tag.attrib["value"], '%Y-%m-%dTEV'
                                 ).date()
                             ]
-                        except ValueError:
+                        except (KeyError, ValueError) as e:
                             try:
                                 value = [
                                     datetime.datetime.strptime(
                                         time_tag.attrib["value"], '%Y-%m-%dTNI'
                                     ).date()
                                 ]
-                            except ValueError:
+                            except (KeyError, ValueError) as e:
                                 try:
                                     value = [
                                         datetime.datetime.strptime(
                                             time_tag.attrib["value"], '%Y-%m-%dTAF'
                                         ).date()
                                     ]
-                                except ValueError:
+                                except (KeyError, ValueError) as e:
                                     logger.warning("Could not parse date " +
                                                    time_tag.attrib["value"])
                                     value = [None]
