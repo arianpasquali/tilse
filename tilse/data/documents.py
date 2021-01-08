@@ -85,7 +85,7 @@ class Document:
                             time_tag.attrib["value"], '%Y-%m-%d'
                         ).date()
                     ]
-                except ValueError:
+                except (KeyError, ValueError) as e:
                     try:
                         value = [
                             datetime.datetime.strptime(
