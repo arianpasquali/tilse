@@ -96,9 +96,16 @@ class Document:
                             ]
                             time_span = "y"
                         except ValueError:
-                            logger.warning("Could not parse date " +
-                                           time_tag.attrib["value"])
-                            value = [None]
+                            try:
+                                value = [
+                                    datetime.datetime.strptime(
+                                        time_tag.attrib["value"], '%Y%m%d'
+                                    ).date()
+                                ]
+                            except ValueError:
+                                logger.warning("Could not parse date " +
+                                            time_tag.attrib["value"])
+                                value = [None]
 
             elif time_tag.attrib["type"] == "TIME":
                 print("TIME tag", time_tag)
