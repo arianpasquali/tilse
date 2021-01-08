@@ -80,7 +80,7 @@ class Document:
                             time_tag.attrib["value"], '%Y-%m-%d'
                         ).date()
                     ]
-                except ValueError, KeyError:
+                except (ValueError, KeyError) as error:
                     try:
                         value = [
                             datetime.datetime.strptime(
@@ -121,7 +121,7 @@ class Document:
                             time_tag.attrib["value"], '%Y-%m-%dT%H:%M'
                         ).date()
                     ]
-                except ValueError, KeyError:
+                except (ValueError, KeyError) as error:
                     try:
                         value = [
                             datetime.datetime.strptime(
