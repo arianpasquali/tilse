@@ -94,6 +94,7 @@ class Document:
                                     time_tag.attrib["value"], '%Y'
                                 ).date()
                             ]
+                            print(value)
                             time_span = "y"
                         except ValueError:
                             try:
@@ -102,10 +103,14 @@ class Document:
                                         time_tag.attrib["value"], '%Y%m%d'
                                     ).date()
                                 ]
+                                print(value)
                             except ValueError:
                                 logger.warning("Could not parse date " +
                                             time_tag.attrib["value"])
-                                value = [None]
+                try:
+                    print(time_tag.attrib["value"], value)                    
+                except:
+                    print("error to parse",time_tag.attrib["value"])
 
             elif time_tag.attrib["type"] == "TIME":
                 print("TIME tag", time_tag)
