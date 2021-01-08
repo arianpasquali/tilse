@@ -86,7 +86,6 @@ class Document:
                         ).date()
                     ]
                 except ValueError:
-                except:
                     try:
                         value = [
                             datetime.datetime.strptime(
