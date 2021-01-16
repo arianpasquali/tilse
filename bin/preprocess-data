@@ -163,7 +163,7 @@ elif "covid19" in corpus:
             shutil.rmtree(articles_path)
         os.makedirs(articles_path)
 
-        timelines_path = path_raw + topic + "/articles/"
+        timelines_path = path_raw + topic + "/timelines/"
         if os.path.exists(timelines_path):
             shutil.rmtree(timelines_path)
         os.makedirs(timelines_path)
@@ -249,18 +249,23 @@ if corpus == "crisis" or "covid19" in corpus:
                     for pair in pairs:
                         fix_sentence_segmentation = fix_sentence_segmentation.replace(pair[0],pair[1])
 
-                    # print("write timeml file")
-                    article_dateref = date_parser.parse(date)
-                    timeml_xml = normalize_temporal_expressions(fix_sentence_segmentation, article_dateref)
+                    try:
+                        # print("write timeml file")
+                        article_dateref = date_parser.parse(date)
+                        timeml_xml = normalize_temporal_expressions(fix_sentence_segmentation, article_dateref)
 
-                    timeml_output_filename = "/".join([path_raw, topic, "articles", date,
+                        timeml_output_filename = "/".join([path_raw, topic, "articles", date,
                                                    filename]) + ".timeml"
-                    with open(timeml_output_filename, "wb") as f_out:
-                        f_out.write(timeml_xml.encode("utf-8"))
+                        with open(timeml_output_filename, "wb") as f_out:
+                            f_out.write(timeml_xml.encode("utf-8"))
                     
-                    print(counter, timeml_output_filename)
-                    counter += 1
+                        print(counter, timeml_output_filename)
+                        counter += 1
 
+                    except:
+                        timeml_output_filename = "/".join([path_raw, topic, "articles", date,
+                                                   filename]) + ".timeml"
+                        print("error generating", timeml_output_filename)
 # # handle special tokens for xml
 
 # pairs = [("&", "&amp;"), ("<", "\&lt;"), (">", "\&gt;")]
