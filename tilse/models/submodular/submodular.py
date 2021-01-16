@@ -232,6 +232,9 @@ class Submodular(models.Model):
         all_sents = [sent for doc in corpus for sent in doc]
 
         logging.info("Compute sentence similarities")
+        logging.info(f"{topic_name} : all_sents length {len(all_sents)}")
+
+
         sims = self.sentence_representation_computer(corpus).compute_pairwise_similarities()
 
         logging.info("Cluster sentence representations")
