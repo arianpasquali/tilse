@@ -74,15 +74,6 @@ news_corpora = {}
 reference_timelines = {}
 
 # corpus = "timeline17"
-
-corpus = config["corpus"]
-raw_directory = config["corpus"] + "/raw/"
-dumped_corpora_directrory = config["corpus"] + "/dumped_corpora/"
-
-
-raw_directory = config["corpus"] + "/raw/"
-dumped_corpora_directrory = config["corpus"] + "/dumped_corpora/"
-
 # dataset_lang = corpus.split("_")[-1]
 # print("dataset lang", dataset_lang)
 # logging.info("loading spacy language model")
@@ -102,6 +93,14 @@ keyword_mapping =  {
     # "syria": ["syria", "syrian"],
     # "yemen": ["yemen"]
   }
+
+# config_file = modelbase_dir + _config
+# config = json.load(open(config_file))
+
+# corpus = config["corpus"]
+corpus = "/home/dock/workspace/tilse/covid19_en"
+raw_directory = corpus + "/raw/"
+dumped_corpora_directrory = corpus + "/dumped_corpora/"
 
 for topic in sorted(os.listdir(raw_directory)):
     logging.debug(topic)
