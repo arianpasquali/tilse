@@ -25,7 +25,7 @@ from tilse.evaluation import rouge
 from tilse.data.corpora import Corpus
 from tilse.data.documents import Document
 
-from install_external_nlp_models import load_spacy_model
+# from install_external_nlp_models import load_spacy_model
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(levelname)s %(''message)s')
