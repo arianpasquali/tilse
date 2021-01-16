@@ -46,8 +46,10 @@ million_coronavirus_cases_guardian
 million_coronavirus_cases_cnn
 confirmed_cases_cnn
 cases_cnn
+rome_guardian
+rome_cnn
 christmas_cnn
-christmas_guardian
+christmas_
 cases_guardian
 death_toll_guardian
 death_toll_cnn
