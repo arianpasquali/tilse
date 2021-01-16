@@ -1,3 +1,4 @@
+git+https://github.com/pltrdy/rouge
 textacy==0.6.2
 numpy==1.18.4
 spacy==2.0.12

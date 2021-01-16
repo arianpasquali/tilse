@@ -7,8 +7,10 @@ import nltk
 import numpy
 from scipy import optimize
 
-import pyrouge
+# import pyrouge
 from tilse.evaluation import util
+from rouge import Rouge
+
 
 
 class TimelineRougeEvaluator:
@@ -35,8 +37,7 @@ class TimelineRougeEvaluator:
 
     """
 
-    def __init__(self, measures={"rouge_1"}, rouge_computation="original",
-                 beta=1):
+    def __init__(self, measures={"rouge_1"}, beta=1):
         """ Initialize the evaluator.
 
         Args:
@@ -44,19 +45,13 @@ class TimelineRougeEvaluator:
                 Defaults to `rouge_1`.
             rouge_computation (str): Whether to use the original ROUGE perl
                 script ("original") or an approximate Python reimplementation
-                ("reimpl"). Defaults to "original".
+                ("reimpl"). Defaults to "reimpl".
             beta (float): Value controlling the recall/precision trade-off when
                 computing F_beta scores. Defaults to 1.
         """
         self.measures = measures
-
-        if rouge_computation == "reimpl":
-            self.rouge = RougeReimplementation()
-        elif rouge_computation == "original":
-            self.rouge = pyrouge.Rouge155(average="raw", stem=True,
-                                          ignore_stopwords=True)
-
-        self.beta = beta
+        self.beta = beta        
+        self.rouge = RougeReimplementation()        
 
     def evaluate_concat(self, predicted_timeline, reference_timelines):
         """ Evaluate a predicted timeline w.r.t. a set of reference timelines using the
@@ -95,8 +90,14 @@ class TimelineRougeEvaluator:
 
         for measure in self.measures:
 
-            prec = scores[measure]["prec_num"] / scores[measure]["prec_denom"]
-            rec = scores[measure]["rec_num"] / scores[measure]["rec_denom"]
+            prec = scores[measure]["prec_num"]
+            rec = scores[measure]["rec_num"]
+
+            if(scores[measure]["prec_denom"] > 0):
+                prec = scores[measure]["prec_num"] / scores[measure]["prec_denom"]
+
+            if(scores[measure]["rec_denom"] > 0):
+                rec = scores[measure]["rec_num"] / scores[measure]["rec_denom"]
 
             output_scores[measure] = {
                 "precision": prec,
@@ -320,6 +321,8 @@ class TimelineRougeEvaluator:
         rec_costs = compute_costs(pred_dates, ref_dates, predicted_timeline,
                                   reference_timelines, axis=1)
 
+        print("prec_costs", prec_costs)
+        print("prec_costs", rec_costs)
         prec_row, prec_col = optimize_assignment(prec_costs)
         rec_row, rec_col = optimize_assignment(rec_costs)
 
@@ -549,7 +552,7 @@ class RougeReimplementation:
         dir_path = os.path.dirname(os.path.realpath(__file__))
 
         if ignore_stopwords:
-            with open(dir_path + "/../../pyrouge/tools/ROUGE-1.5.5/data/smart_common_words.txt") as my_file:
+            with open(dir_path + "/smart_common_words.txt") as my_file:
                 self.stopwords = set(my_file.read().splitlines())
 
     def score_summary(self, summary, references):
@@ -655,3 +658,4 @@ class RougeReimplementation:
             "rouge_2_p_count": prec_denom,
             "rouge_2_m_count": recall_denom,
         }
+

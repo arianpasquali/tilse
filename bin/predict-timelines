@@ -69,7 +69,7 @@ for topic in temp_reference_timelines:
     reference_timelines[topic] = timelines.GroundTruth(temp_reference_timelines[topic])
 
 evaluator = rouge.TimelineRougeEvaluator(measures=["rouge_1", "rouge_2"],
-                                         beta=1, rouge_computation=config["rouge_computation"])
+                                         beta=1)
 
 algorithm = None
 

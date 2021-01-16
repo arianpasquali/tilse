@@ -161,18 +161,30 @@ class Document:
                                         ).date()
                                     ]
                                 except (KeyError, ValueError) as e:
-                                    logger.warning("Could not parse date " +
-                                                   time_tag.attrib["value"])
-                                    value = [None]
+                                    #logger.warning("Could not parse date " +time_tag.attrib["value"])
+                                    logger.warning("Could not parse date " +str(time_tag))
+            #                        value = [None]
             else:
                 value = [None]
 
+            if not (value == [None] ):
+                logger.info(f'normalized from [{time_tag.text}] to {value}')
+
             time_values.extend(value * len(splitted_text))
             time_spans.extend(time_span * len(splitted_text))
-            splitted_tail = time_tag.tail.split()
-            tokens.extend(splitted_tail)
-            time_values.extend([None] * len(splitted_tail))
-            time_spans.extend([None] * len(splitted_tail))
+            if(time_tag.tail):
+            
+                splitted_tail = time_tag.tail.split()
+                tokens.extend(splitted_tail)
+                time_values.extend([None] * len(splitted_tail))
+                time_spans.extend([None] * len(splitted_tail))    
+
+            #time_values.extend(value * len(splitted_text))
+            #time_spans.extend(time_span * len(splitted_text))
+            #splitted_tail = time_tag.tail.split()
+            #tokens.extend(splitted_tail)
+            #time_values.extend([None] * len(splitted_tail))
+            #time_spans.extend([None] * len(splitted_tail))
 
         tokens = Document._process_tokens(tokens)
 
