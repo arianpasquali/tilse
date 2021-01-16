@@ -18,7 +18,7 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from tilse.models.regression import regression
 from tilse.models.submodular import submodular, upper_bounds
 from tilse.models.chieu import chieu
-from tilse.models.random.random import Random
+from tilse.models.random import random
 
 from tilse.data import timelines
 from tilse.evaluation import rouge
@@ -34,15 +34,36 @@ parser = argparse.ArgumentParser(description='Predict timelines using public `ti
 parser.add_argument('--config_file', help='config JSON file containing parameters.')
 parser.add_argument('--consider_headlines_only', help='Consider only headlines', action='store_true')
 
+
 args = parser.parse_args()
 
-logging.info("loading spacy language model")
-nlp = load_spacy_model("en_core_web_sm")
 
+
+ignore_topics = """us-the_us-united_states-the_united_states-american-americans_guardian
+us-the_us-united_states-the_united_states-american-americans_cnn
+confirmed_cases_guardian
+million_coronavirus_cases_guardian
+million_coronavirus_cases_cnn
+confirmed_cases_cnn
+cases_cnn
+cases_guardian
+death_toll_guardian
+death_toll_cnn
+britain-british_cnn
+britain-british_guardian
+eu_guardian
+eu_cnn
+the_us_food_and_drug_administration_guardian
+the_us_food_and_drug_administration_cnn
+brazil_death_toll_cnn
+brazil_death_toll_guardian"""
+
+ignore_topics.split("\n")
+modelbase_dir = "configs/tlscovid19/"
 
 if not(args.config_file):
     # read all configs
-    configs = listdir("configs/timeline17")
+    configs = listdir(modelbase_dir)
 else:
     configs = [args.config_file]
 
@@ -52,23 +73,34 @@ temp_reference_timelines = defaultdict(list)
 news_corpora = {}
 reference_timelines = {}
 
-modelbase_dir = "configs/timeline17/"
-corpus = "timeline17"
+# corpus = "timeline17"
 
-raw_directory = "timeline17/raw/"
-dumped_corpora_directrory = 'timeline17/dumped_corpora/'
+corpus = config["corpus"]
+raw_directory = config["corpus"] + "/raw/"
+dumped_corpora_directrory = config["corpus"] + "/dumped_corpora/"
+
+
+raw_directory = config["corpus"] + "/raw/"
+dumped_corpora_directrory = config["corpus"] + "/dumped_corpora/"
+
+# dataset_lang = corpus.split("_")[-1]
+# print("dataset lang", dataset_lang)
+# logging.info("loading spacy language model")
+# nlp = spacy.load("en_core_web_sm")
+# if(dataset_lang == "pt"):
+#     nlp = spacy.load("pt_core_news_sm")
 
 keyword_mapping =  {
-    "bpoil": ["bp", "oil", "spill"],
-    "egypt": ["egypt", "egyptian"],
-    "finan": ["financial", "economic", "crisis"],
-    "h1n1": ["h1n1", "swine", "flu"],
-    "haiti": ["haiti", "quake", "earthquake"],
-    "iraq": ["iraq", "iraqi"],
-    "libya": ["libya", "libyan"],
-    "mj": ["michael", "jackson"],
-    "syria": ["syria", "syrian"],
-    "yemen": ["yemen"]
+    # "bpoil": ["bp", "oil", "spill"],
+    # "egypt": ["egypt", "egyptian"],
+    # "finan": ["financial", "economic", "crisis"],
+    # "h1n1": ["h1n1", "swine", "flu"],
+    # "haiti": ["haiti", "quake", "earthquake"],
+    # "iraq": ["iraq", "iraqi"],
+    # "libya": ["libya", "libyan"],
+    # "mj": ["michael", "jackson"],
+    # "syria": ["syria", "syrian"],
+    # "yemen": ["yemen"]
   }
 
 for topic in sorted(os.listdir(raw_directory)):
@@ -132,7 +164,7 @@ for _config in configs:
     elif config["algorithm"] == "regression":
         algorithm = regression.Regression(config, evaluator)
     elif config["algorithm"] == "random":
-        algorithm = Random(config, evaluator)
+        algorithm = random.Random(config, evaluator)
     elif config["algorithm"] == "submodular":
         algorithm = submodular.Submodular(config, evaluator)
     elif config["algorithm"] == "upper_bound":
