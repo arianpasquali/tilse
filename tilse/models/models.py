@@ -61,6 +61,7 @@ class Model:
         """
     
         topics = sorted(list(corpora.keys()))
+        print("all topics", topics)
         results_rouge = {}
         results_date = {}
         returned_timelines = {}
@@ -68,9 +69,11 @@ class Model:
         # preprocess
         topic_to_preprocessed = {}
         for t in topics:
+            print("preprocessing topic", t)
             topic_to_preprocessed[t] = self.preprocess(t, corpora[t])
 
         for t in topics:
+            print("predict timeline for topic", t)
             new_results_rouge, new_results_date, new_returned_timelines = self._run_for_one(t, corpora,
                                                                                             topic_to_preprocessed,
                                                                                             reference_timelines)
