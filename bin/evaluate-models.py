@@ -105,6 +105,14 @@ dumped_corpora_directrory = corpus + "/dumped_corpora/"
 for topic in sorted(os.listdir(raw_directory)):
     logging.debug(topic)
 
+    if restrict_topics_to is not None and topic not in restrict_topics_to:
+        continue
+
+    # ignorar topicos da lista
+    if topic in ignore_topics:
+        print("ignorando topico", topic)
+        continue
+
     dataset_path = dumped_corpora_directrory + topic + ".corpus.obj"
     logging.info("loading corpus " + dataset_path)
     logging.info("this may take a while ...")
