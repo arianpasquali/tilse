@@ -47,6 +47,8 @@ million_coronavirus_cases_cnn
 confirmed_cases_cnn
 cases_cnn
 rome_guardian
+wales_guardian
+wales_cnn
 rome_cnn
 christmas_cnn
 christmas_
