@@ -128,8 +128,8 @@ for topic in sorted(os.listdir(raw_directory)):
     logging.debug("number of sentences : {}".format(len(sents)))
 
     # filter dataset by keywords
-    if keyword_mapping is not None and keyword_mapping[topic] is not None:
-        news_corpora[topic] = news_corpora[topic].filter_by_keywords_contained(keyword_mapping[topic])
+    # if keyword_mapping is not None and keyword_mapping[topic] is not None:
+    #     news_corpora[topic] = news_corpora[topic].filter_by_keywords_contained(keyword_mapping[topic])
 
     # read groundtruth timelines
     for filename in sorted(list(os.listdir(raw_directory + "/" + topic + "/timelines/"))):
