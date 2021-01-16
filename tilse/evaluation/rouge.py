@@ -316,6 +316,8 @@ class TimelineRougeEvaluator:
         pred_dates = sorted(list(predicted_timeline.get_dates()))
         ref_dates = sorted(list(reference_timelines.get_dates()))
 
+        print("ref_dates", ref_dates)
+        print("pred_dates", pred_dates)
         prec_costs = compute_costs(pred_dates, ref_dates, predicted_timeline,
                                    reference_timelines, axis=0)
         rec_costs = compute_costs(pred_dates, ref_dates, predicted_timeline,
