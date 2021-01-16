@@ -99,6 +99,10 @@ class Model:
             pred = self.predict(corpus, topic_to_preprocessed[t], timeline_properties, params)
 
             # evaluate
+            print("topic_to_preprocessed", topic_to_preprocessed)
+            print("timeline_properties", timeline_properties)
+            print("groundtruth", groundtruth)
+            print("pred", pred)
             results_rouge[t + "_" + str(i)] = self.rouge.evaluate_all(pred, groundtruth)
             results_date_selection[t + "_" + str(i)] = dates.evaluate_dates(pred, groundtruth)
             returned_timelines[t + "_" + str(i)] = pred
