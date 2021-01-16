@@ -62,6 +62,9 @@ class SentenceRepresentation:
         """
         _, sents_vec = self._get_sents_with_representations()
 
+        print("sents_vec", sents_vec)
+        print("_", _)
+
         sims_temp = 1 - metrics.pairwise.pairwise_distances(sents_vec, metric="cosine")
 
         sims_temp += abs(sims_temp.min())
