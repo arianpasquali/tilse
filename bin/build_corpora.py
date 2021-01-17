@@ -64,7 +64,7 @@ sources = {
 
 topics = {}
 for topic in os.listdir(path_raw):
-    topic_name = topic.replace(f"_{sources[dataset_lang]}.corpus.obj")
+    topic_name = topic.replace(f"_{sources[dataset_lang]}.corpus.obj","")
     if(topic_name not in topics.keys()):
         topics[topic_name] = []
 
