@@ -49,7 +49,8 @@ class SentenceRepresentation:
                 sents.append(sent)
                 sents_vec.append(self._get_sentence_vector(sent))
 
-        return sents, numpy.array(sents_vec)
+        # return sents, numpy.array(sents_vec)
+        return sents, numpy.array(sents_vec).astype(np.float32)
 
     def compute_pairwise_similarities(self):
         """
