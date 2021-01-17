@@ -57,8 +57,36 @@ nlp = spacy.load("en_core_web_sm")
 if(dataset_lang == "pt"):
     nlp = spacy.load("pt_core_news_sm")
 
-for topic in os.listdir(path_raw):
-    corpus = corpora.Corpus.from_folder(path_raw + topic + "/articles/", nlp)
+sources = {
+    "en":["guardian","cnn"],
+    "pt":["publico","observador"],
+}
 
+topics = {}
+for topic in os.listdir(path_raw):
+    topic_name = topic.replace(f"_{sources[dataset_lang]}.corpus.obj")
+    if(topic_name not in topics.keys()):
+        topics[topic_name] = []
+
+    topics[topic_name].append(corpora.Corpus.from_folder(path_raw + topic + "/articles/", nlp))
+
+import itertools
+# list2d = [[1,2,3], [4,5,6], [7], [8,9]]
+
+for topic in topics.keys():    
+    all_docs = []
+    for _corpus in topics[topic]:
+        all_docs.append(_corpus.docs)
+
+    merged_docs = list(itertools.chain(*all_docs))
+    topic_corpora = corpora.Corpus(docs=merged_docs, name=topic)
+
+    
+    all_sents = [sent for doc in merged_docs for sent in doc]
+    print(f"number of docs : {len(merged_docs)}")
+    print(f"number of sentences : {len(all_sents)}")
+
+    # if(len(all_sents) > 1000):
+    print(topic, len(all_sents))
     with open(path_dumped + topic + ".corpus.obj", "wb") as my_file:
-        pickle.dump(corpus, my_file)
+        pickle.dump(topic_corpora, my_file)
