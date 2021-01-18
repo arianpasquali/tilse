@@ -62,31 +62,90 @@ sources = {
     "pt":["publico","observador"],
 }
 
-topics = {}
-for topic in os.listdir(path_raw):
-    topic_name = topic.replace(f"_{sources[dataset_lang]}.corpus.obj","")
-    if(topic_name not in topics.keys()):
-        topics[topic_name] = []
+ignore_topics = """us-the_us-united_states-the_united_states-american-americans_guardian
+us-the_us-united_states-the_united_states-american-americans_cnn
+confirmed_cases_guardian
+million_coronavirus_cases_guardian
+million_coronavirus_cases_cnn
+confirmed_cases_cnn
+cases_cnn
+rome_guardian
+wales_guardian
+wales_cnn
+rome_cnn
+christmas_cnn
+christmas_
+cases_guardian
+death_toll_guardian
+death_toll_cnn
+britain-british_cnn
+britain-british_guardian
+eu_guardian
+eu_cnn
+the_us_food_and_drug_administration_guardian
+the_us_food_and_drug_administration_cnn
+brazil_death_toll_cnn
+brazil_death_toll_guardian"""
 
-    topics[topic_name].append(corpora.Corpus.from_folder(path_raw + topic + "/articles/", nlp))
+ignore_topics.split("\n")
+
+topics = {}
+# sort by name
+# save each double
+
+all_topics = os.listdir(path_raw)
+all_topics = sorted(all_topics)
+
+source_a = []
+source_b = []
+
+if(dataset_lang == "en"):
+    source_a = [corpus_name for corpus_name in all_topics if "guardian" in corpus_name]
+    sourceb = [corpus_name for corpus_name in all_topics if "cnn" in corpus_name]
+elif(dataset_lang == "pt"):
+    source_a = [corpus_name for corpus_name in all_topics if "publico" in corpus_name]
+    source_b = [corpus_name for corpus_name in all_topics if "observador" in corpus_name]
 
 import itertools
-# list2d = [[1,2,3], [4,5,6], [7], [8,9]]
+for idx, topic_a in enumerate(source_a):
+    # ignorar topicos da lista
+    if topic_a in ignore_topics:
+        print("ignorando topico", topic_a)
+        continue
 
-for topic in topics.keys():    
-    all_docs = []
-    for _corpus in topics[topic]:
-        all_docs.append(_corpus.docs)
+    topic_name = topic_a.replace(f"_{sources[dataset_lang]}.corpus.obj","")
+    # if(topic_name not in topics.keys()):
+    #     topics[topic_name] = []
 
+    topic_b = source_b[idx]
+    corpus_a = corpora.Corpus.from_folder(path_raw + topic_a + "/articles/", nlp))
+    corpus_b = corpora.Corpus.from_folder(path_raw + topic_b + "/articles/", nlp))
+
+    all_docs = corpus_a.docs + corpus_b.docs
     merged_docs = list(itertools.chain(*all_docs))
-    topic_corpora = corpora.Corpus(docs=merged_docs, name=topic)
-
+    merged_corpus = corpora.Corpus(docs=merged_docs, name=topic_name)
     
     all_sents = [sent for doc in merged_docs for sent in doc]
-    print(f"number of docs : {len(merged_docs)}")
-    print(f"number of sentences : {len(all_sents)}")
+    print(f"topic: {topic_name} | n_docs: {len(merged_docs)} | n_sentences :{len(all_sents)}")
+    with open(path_dumped + topic_name + ".corpus.obj", "wb") as my_file:
+        pickle.dump(merged_corpus, my_file)
 
-    # if(len(all_sents) > 1000):
-    print(topic, len(all_sents))
-    with open(path_dumped + topic + ".corpus.obj", "wb") as my_file:
-        pickle.dump(topic_corpora, my_file)
+# list2d = [[1,2,3], [4,5,6], [7], [8,9]]
+
+# for topic in topics.keys():    
+#     all_docs = []
+#     for _corpus in topics[topic]:
+#         all_docs.append(_corpus.docs)
+
+#     merged_docs = list(itertools.chain(*all_docs))
+#     topic_corpora = corpora.Corpus(docs=merged_docs, name=topic)
+
+    
+#     all_sents = [sent for doc in merged_docs for sent in doc]
+#     print(f"number of docs : {len(merged_docs)}")
+#     print(f"number of sentences : {len(all_sents)}")
+
+#     # if(len(all_sents) > 1000):
+#     print(topic, len(all_sents))
+#     with open(path_dumped + topic + ".corpus.obj", "wb") as my_file:
+#         pickle.dump(topic_corpora, my_file)
