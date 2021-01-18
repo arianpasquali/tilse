@@ -113,6 +113,7 @@ for idx, topic_a in enumerate(source_a):
         print("ignorando topico", topic_a)
         continue
 
+
     topic_name = topic_a.replace(f"_{sources[dataset_lang][0]}.corpus.obj","")
     # if(topic_name not in topics.keys()):
     #     topics[topic_name] = []
@@ -127,7 +128,10 @@ for idx, topic_a in enumerate(source_a):
     merged_corpus = corpora.Corpus(docs=merged_docs, name=topic_name)
     
     all_sents = [sent for doc in merged_docs for sent in doc]
-    print(f"topic: {topic_name} | n_docs: {len(merged_docs)} | n_sentences :{len(all_sents)}")
+    print(f"merged_topic: {topic_name} | n_docs: {len(merged_docs)} | n_sentences :{len(all_sents)}")
+    print(f"topic {topic_name} source a: | n_docs: {len(corpus_a.docs)}")
+    print(f"topic {topic_name} source b: | n_docs: {len(corpus_b.docs)}")
+
     with open(path_dumped + topic_name + ".corpus.obj", "wb") as my_file:
         pickle.dump(merged_corpus, my_file)
 
