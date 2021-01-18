@@ -85,7 +85,21 @@ eu_cnn
 the_us_food_and_drug_administration_guardian
 the_us_food_and_drug_administration_cnn
 brazil_death_toll_cnn
-brazil_death_toll_guardian"""
+brazil_death_toll_guardian
+covid-covid_19-covid19_observador
+covid-covid_19-covid19_publico
+assembleia_da_republica-ar_observador
+assembleia_da_republica-ar_publico
+saude_observador
+saude_publico
+governo-o_governo_observador
+governo-o_governo_publico
+milhoes_de_casos_publico
+milhoes_de_casos_observador
+chega_publico
+chega_observador
+mortes-mortos-vitimas_mortais_publico
+mortes-mortos-vitimas_mortais_observador"""
 
 ignore_topics.split("\n")
 
