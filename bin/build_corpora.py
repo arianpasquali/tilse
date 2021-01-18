@@ -113,7 +113,7 @@ for idx, topic_a in enumerate(source_a):
         print("ignorando topico", topic_a)
         continue
 
-    topic_name = topic_a.replace(f"_{sources[dataset_lang]}.corpus.obj","")
+    topic_name = topic_a.replace(f"_{sources[dataset_lang][0]}.corpus.obj","")
     # if(topic_name not in topics.keys()):
     #     topics[topic_name] = []
     print("topic_name", topic_name)
