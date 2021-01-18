@@ -118,8 +118,8 @@ for idx, topic_a in enumerate(source_a):
     #     topics[topic_name] = []
 
     topic_b = source_b[idx]
-    corpus_a = corpora.Corpus.from_folder(path_raw + topic_a + "/articles/", nlp))
-    corpus_b = corpora.Corpus.from_folder(path_raw + topic_b + "/articles/", nlp))
+    corpus_a = corpora.Corpus.from_folder(path_raw + topic_a + "/articles/", nlp)
+    corpus_b = corpora.Corpus.from_folder(path_raw + topic_b + "/articles/", nlp)
 
     all_docs = corpus_a.docs + corpus_b.docs
     merged_docs = list(itertools.chain(*all_docs))
