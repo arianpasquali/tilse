@@ -117,7 +117,11 @@ for idx, topic_a in enumerate(source_a):
     # if(topic_name not in topics.keys()):
     #     topics[topic_name] = []
 
-    topic_b = source_b[idx]
+    topic_b = None
+    try:
+        topic_b = source_b[idx]
+    except:
+        print("error", topic_a)
     corpus_a = corpora.Corpus.from_folder(path_raw + topic_a + "/articles/", nlp)
     corpus_b = corpora.Corpus.from_folder(path_raw + topic_b + "/articles/", nlp)
 
