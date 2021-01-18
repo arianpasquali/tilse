@@ -101,7 +101,7 @@ source_b = []
 
 if(dataset_lang == "en"):
     source_a = [corpus_name for corpus_name in all_topics if "guardian" in corpus_name]
-    sourceb = [corpus_name for corpus_name in all_topics if "cnn" in corpus_name]
+    source_b = [corpus_name for corpus_name in all_topics if "cnn" in corpus_name]
 elif(dataset_lang == "pt"):
     source_a = [corpus_name for corpus_name in all_topics if "publico" in corpus_name]
     source_b = [corpus_name for corpus_name in all_topics if "observador" in corpus_name]
@@ -117,7 +117,7 @@ for idx, topic_a in enumerate(source_a):
     # if(topic_name not in topics.keys()):
     #     topics[topic_name] = []
     print("topic_name", topic_name)
-    
+
     topic_b = source_b[idx]
     corpus_a = corpora.Corpus.from_folder(path_raw + topic_a + "/articles/", nlp)
     corpus_b = corpora.Corpus.from_folder(path_raw + topic_b + "/articles/", nlp)
