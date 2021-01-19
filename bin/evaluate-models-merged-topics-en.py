@@ -274,7 +274,8 @@ evaluator = rouge.TimelineRougeEvaluator(measures=["rouge_1", "rouge_2"], beta=1
 model_avg_scores = {}
 
 for _config in configs:
-    config_file = modelbase_dir + _config
+    # config_file = modelbase_dir + _config
+    config_file = _config
     print(_config)
     print(config_file)
     config = json.load(open(config_file))
