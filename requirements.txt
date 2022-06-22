@@ -1,6 +1,6 @@
 git+https://github.com/pltrdy/rouge
 textacy==0.6.2
-numpy==1.18.4
+numpy==1.22.0
 spacy==2.0.12
 beautifulsoup4==4.9.1
 nltk==3.5
